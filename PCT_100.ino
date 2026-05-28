@@ -3,18 +3,21 @@
 
 void setup()
 {
-    key_init();
+    key_init();    // 初始化按键（中断+非阻塞消抖）
+    relay_init();  // 初始化继电器
     Serial.begin(9600);
 }
 
 void loop()
 {
-    if (KEY == 0)
+    // 检测按键按下（非阻塞，不卡程序）
+    if (key_get_press_flag())
     {
-        delay(10);
-        if (KEY == 0)
-        {
-            Serial.println("key press!");
-        }
+        // 处理按键事件
+        Serial.println("key press!");
+        relay_toggle(); // 翻转继电器状态
+
+        // 处理完事件，清除标志
+        key_clear_press_flag();
     }
 }
