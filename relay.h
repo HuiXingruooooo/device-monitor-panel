@@ -3,12 +3,10 @@
 
 #include "Arduino.h"
 
-// 继电器引脚定义
-#define RELAY_PIN 2
+#define LIGHT_PIN 6
+#define FAN_PIN   7
 
-void relay_init(void);
-void relay_on(void);
-void relay_off(void);
-void relay_toggle(void); // 新增：翻转继电器状态的函数声明
+void peripherals_init(void);
+void peripherals_set(uint8_t light, uint8_t fan);
 
 #endif

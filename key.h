@@ -3,11 +3,11 @@
 
 #include "Arduino.h"
 
-#define KEY_PIN 0
+#define KEY1_PIN  20
+#define KEY2_PIN  21
 
-// 函数声明
 void key_init(void);
-bool key_get_press_flag(void);  // 获取按键按下标志（非阻塞）
-void key_clear_press_flag(void); // 清除按键标志
+uint8_t key1_read(void);
+uint8_t key2_scan(void);
 
 #endif

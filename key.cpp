@@ -1,38 +1,43 @@
 #include "key.h"
 
-// 全局变量
-static volatile bool key_press_flag = false;  // 按键按下标志（中断修改）
-static unsigned long last_debounce_time = 0; // 消抖计时
-const unsigned long DEBOUNCE_DELAY = 20;      // 消抖时间20ms（非阻塞）
-
-// 中断服务函数：按键触发中断
-void IRAM_ATTR key_isr(void)
-{
-  unsigned long current_time = millis();
-  // 非阻塞消抖：距离上次触发超过20ms才有效
-  if (current_time - last_debounce_time >= DEBOUNCE_DELAY)
-  {
-    last_debounce_time = current_time;
-    key_press_flag = true;
-  }
+void key_init() {
+    pinMode(KEY1_PIN, INPUT_PULLDOWN);
+    pinMode(KEY2_PIN, INPUT_PULLDOWN);
 }
 
-void key_init(void)
-{
-  // 初始化按键引脚：上拉输入
-  pinMode(KEY_PIN, INPUT_PULLUP);
-  // 绑定外部中断：下降沿触发（按键按下）
-  attachInterrupt(KEY_PIN, key_isr, FALLING);
+uint8_t key1_read() {
+    return digitalRead(KEY1_PIN);
 }
 
-// 获取按键按下标志
-bool key_get_press_flag(void)
-{
-  return key_press_flag;
-}
+// 长按2秒触发模式切换
+uint8_t key2_scan() {
+    static uint8_t key_sta = 0;
+    static unsigned long t_start = 0;
+    uint8_t val = digitalRead(KEY2_PIN);
 
-// 清除按键标志（处理完按键事件后调用）
-void key_clear_press_flag(void)
-{
-  key_press_flag = false;
+    switch(key_sta) {
+        case 0:
+            if(val == 1) {
+                delay(15);
+                if(digitalRead(KEY2_PIN) == 1) {
+                    key_sta = 1;
+                    t_start = millis();
+                }
+            }
+            break;
+        case 1:
+            if(val == 0) {
+                key_sta = 0;
+                return 1;
+            }
+            if(millis() - t_start >= 2000) {
+                key_sta = 2;
+                return 2;
+            }
+            break;
+        case 2:
+            if(val == 0) key_sta = 0;
+            break;
+    }
+    return 0;
 }
