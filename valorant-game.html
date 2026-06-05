@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无畏契约 - 射击游戏</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e1e2f 0%, #2d2d44 50%, #1a1a2e 100%);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            padding: 15px 20px;
+            background: rgba(255, 68, 68, 0.1);
+            border: 2px solid #ff4444;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .agent-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .agent-card {
+            width: 70px;
+            height: 90px;
+            background: linear-gradient(135deg, #333, #222);
+            border: 2px solid #555;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff4444;
+            box-shadow: 0 5px 15px rgba(255, 68, 68, 0.4);
+        }
+
+        .agent-card.selected {
+            border-color: #ff4444;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+        }
+
+        .agent-icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .agent-name {
+            font-size: 0.7em;
+            color: #888;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #888;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ff4444;
+        }
+
+        .game-container {
+            position: relative;
+            width: 900px;
+            height: 550px;
+            background: linear-gradient(to bottom, #2a2a3e 0%, #1a1a2e 100%);
+            border: 3px solid #ff4444;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(255, 68, 68, 0.3);
+            cursor: crosshair;
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ff4444' fill-opacity='0.05'%3E%3Cpath d='M20 20l20 0l0 20l-20 0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .map-object {
+            position: absolute;
+            background: linear-gradient(135deg, #4a4a6a, #3a3a5a);
+            border: 2px solid #ff4444;
+        }
+
+        .map-object.box {
+            width: 80px;
+            height: 80px;
+            left: 150px;
+            bottom: 100px;
+        }
+
+        .map-object.barrier {
+            width: 120px;
+            height: 60px;
+            right: 200px;
+            bottom: 150px;
+        }
+
+        .map-object.tower {
+            width: 100px;
+            height: 150px;
+            left: 400px;
+            bottom: 0;
+        }
+
+        .player {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            font-size: 2.5em;
+            transition: all 0.1s ease;
+            z-index: 10;
+        }
+
+        .enemy {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            font-size: 2.5em;
+            transition: all 0.2s ease;
+            cursor: crosshair;
+        }
+
+        .ability {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .ability.smoke {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(100, 100, 100, 0.6), transparent);
+            animation: smokeExpand 2s ease-out forwards;
+        }
+
+        @keyframes smokeExpand {
+            0% { transform: scale(0); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
+        .ability.flash {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 255, 0, 0.8), transparent);
+            animation: flash 0.5s ease-out;
+        }
+
+        @keyframes flash {
+            0% { transform: scale(0); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .ability.molotov {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255, 68, 68, 0.8), rgba(255, 100, 0, 0.4), transparent);
+            animation: molotov 3s ease-out forwards;
+        }
+
+        @keyframes molotov {
+            0% { transform: scale(0); opacity: 1; }
+            30% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .bullet {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 20;
+            box-shadow: 0 0 8px #ffd700;
+        }
+
+        .crosshair {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .crosshair::before, .crosshair::after {
+            content: '';
+            position: absolute;
+            background: #00ff88;
+        }
+
+        .crosshair::before {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .crosshair::after {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .crosshair.center::before, .crosshair.center::after {
+            background: #ff4444;
+        }
+
+        .hit-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            pointer-events: none;
+            z-index: 150;
+        }
+
+        .hit-marker::before, .hit-marker::after {
+            content: '';
+            position: absolute;
+            background: #ff4444;
+        }
+
+        .hit-marker::before {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%) rotate(45deg);
+        }
+
+        .hit-marker::after {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%) rotate(-45deg);
+        }
+
+        .ability-bar {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 50;
+        }
+
+        .ability-slot {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #555;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .ability-slot:hover {
+            border-color: #ff4444;
+            background: rgba(255, 68, 68, 0.2);
+        }
+
+        .ability-slot.ready {
+            border-color: #00ff88;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.4);
+        }
+
+        .ability-icon {
+            font-size: 1.5em;
+        }
+
+        .ability-key {
+            font-size: 0.7em;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .game-over.active {
+            display: flex;
+        }
+
+        .game-over-content {
+            text-align: center;
+        }
+
+        .game-over-content h2 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #ff4444;
+            text-shadow: 0 0 20px #ff4444;
+        }
+
+        .game-over-content p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+            color: #00ff88;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff4444, #cc3333);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(255, 68, 68, 0.4);
+        }
+
+        .controls {
+            margin-top: 15px;
+            color: #888;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .kill-feed {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 200;
+        }
+
+        .kill-message {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .ultimate-bar {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .ultimate-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .ultimate-ready {
+            animation: ultimateGlow 1s infinite;
+        }
+
+        @keyframes ultimateGlow {
+            0%, 100% { box-shadow: 0 0 10px #ffd700; }
+            50% { box-shadow: 0 0 30px #ffd700; }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <div class="agent-selector" id="agentSelector">
+            <div class="agent-card selected" data-agent="jett">
+                <div class="agent-icon">🦊</div>
+                <div class="agent-name">Jett</div>
+            </div>
+            <div class="agent-card" data-agent="phoenix">
+                <div class="agent-icon">🔥</div>
+                <div class="agent-name">Phoenix</div>
+            </div>
+            <div class="agent-card" data-agent="sova">
+                <div class="agent-icon">🦅</div>
+                <div class="agent-name">Sova</div>
+            </div>
+            <div class="agent-card" data-agent="viper">
+                <div class="agent-icon">🐍</div>
+                <div class="agent-name">Viper</div>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">击杀</div>
+                <div class="stat-value" id="kills">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">得分</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-container" id="gameContainer">
+        <div class="background"></div>
+        
+        <div class="map-object box"></div>
+        <div class="map-object barrier"></div>
+        <div class="map-object tower"></div>
+        
+        <div class="player" id="player">🎯</div>
+        
+        <div class="crosshair" id="crosshair"></div>
+        
+        <div class="ability-bar">
+            <div class="ability-slot ready" data-ability="smoke">
+                <div class="ability-icon">💨</div>
+                <div class="ability-key">Q</div>
+            </div>
+            <div class="ability-slot ready" data-ability="flash">
+                <div class="ability-icon">⚡</div>
+                <div class="ability-key">C</div>
+            </div>
+            <div class="ability-slot ready" data-ability="molotov">
+                <div class="ability-icon">🔥</div>
+                <div class="ability-key">E</div>
+            </div>
+            <div class="ability-slot" data-ability="ultimate">
+                <div class="ability-icon">⭐</div>
+                <div class="ability-key">X</div>
+            </div>
+        </div>
+        
+        <div class="ultimate-bar">
+            <div class="ultimate-fill" id="ultimateBar"></div>
+        </div>
+        
+        <div class="kill-feed" id="killFeed"></div>
+        
+        <div class="game-over" id="gameOver">
+            <div class="game-over-content">
+                <h2>游戏结束</h2>
+                <p>击杀：<span id="finalKills">0</span> | 得分：<span id="finalScore">0</span></p>
+                <button id="restartBtn">重新开始</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        WASD 移动 | 鼠标左键射击 | Q/C/E/X 使用技能 | 数字键 1-4 切换特工
+    </div>
+
+    <script>
+        class ValorantGame {
+            constructor() {
+                this.gameContainer = document.getElementById('gameContainer');
+                this.player = document.getElementById('player');
+                this.crosshair = document.getElementById('crosshair');
+                
+                this.playerX = 100;
+                this.playerY = 250;
+                this.playerSpeed = 5;
+                
+                this.kills = 0;
+                this.score = 0;
+                this.ultimateCharge = 0;
+                this.currentAgent = 'jett';
+                this.enemies = [];
+                this.gameOver = false;
+                
+                this.abilities = {
+                    smoke: { cooldown: 0, maxCooldown: 5000 },
+                    flash: { cooldown: 0, maxCooldown: 8000 },
+                    molotov: { cooldown: 0, maxCooldown: 10000 },
+                    ultimate: { cooldown: 0, maxCooldown: 15000 }
+                };
+                
+                this.keys = {};
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.spawnEnemy();
+                
+                // 游戏循环
+                this.gameLoop = setInterval(() => {
+                    if (!this.gameOver) {
+                        this.update();
+                    }
+                }, 16);
+                
+                // 敌人生成
+                this.spawnInterval = setInterval(() => {
+                    if (!this.gameOver && this.enemies.length < 5) {
+                        this.spawnEnemy();
+                    }
+                }, 2000);
+            }
+
+            setupEventListeners() {
+                // 移动按键
+                document.addEventListener('keydown', (e) => {
+                    this.keys[e.key.toLowerCase()] = true;
+                    
+                    // 技能按键
+                    if (e.key.toLowerCase() === 'q') this.useAbility('smoke');
+                    if (e.key.toLowerCase() === 'c') this.useAbility('flash');
+                    if (e.key.toLowerCase() === 'e') this.useAbility('molotov');
+                    if (e.key.toLowerCase() === 'x') this.useAbility('ultimate');
+                    
+                    // 特工切换
+                    if (e.key === '1') this.switchAgent('jett');
+                    if (e.key === '2') this.switchAgent('phoenix');
+                    if (e.key === '3') this.switchAgent('sova');
+                    if (e.key === '4') this.switchAgent('viper');
+                });
+                
+                document.addEventListener('keyup', (e) => {
+                    this.keys[e.key.toLowerCase()] = false;
+                });
+                
+                // 射击
+                this.gameContainer.addEventListener('click', (e) => {
+                    if (this.gameOver) return;
+                    
+                    const rect = this.gameContainer.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    this.shoot(x, y);
+                });
+                
+                // 特工选择
+                document.querySelectorAll('.agent-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        this.switchAgent(card.dataset.agent);
+                    });
+                });
+                
+                // 技能点击
+                document.querySelectorAll('.ability-slot').forEach(slot => {
+                    slot.addEventListener('click', () => {
+                        if (slot.classList.contains('ready')) {
+                            this.useAbility(slot.dataset.ability);
+                        }
+                    });
+                });
+                
+                // 重新开始
+                document.getElementById('restartBtn').addEventListener('click', () => {
+                    this.reset();
+                });
+            }
+
+            update() {
+                // 玩家移动
+                if (this.keys['w'] || this.keys['arrowup']) {
+                    this.playerY = Math.max(0, this.playerY - this.playerSpeed);
+                }
+                if (this.keys['s'] || this.keys['arrowdown']) {
+                    this.playerY = Math.min(500, this.playerY + this.playerSpeed);
+                }
+                if (this.keys['a'] || this.keys['arrowleft']) {
+                    this.playerX = Math.max(0, this.playerX - this.playerSpeed);
+                }
+                if (this.keys['d'] || this.keys['arrowright']) {
+                    this.playerX = Math.min(850, this.playerX + this.playerSpeed);
+                }
+                
+                this.player.style.left = this.playerX + 'px';
+                this.player.style.top = this.playerY + 'px';
+                
+                // 更新敌人位置
+                this.enemies.forEach((enemy, index) => {
+                    enemy.x -= enemy.speed;
+                    enemy.element.style.left = enemy.x + 'px';
+                    
+                    if (enemy.x < -50) {
+                        enemy.element.remove();
+                        this.enemies.splice(index, 1);
+                        this.takeDamage(10);
+                    }
+                });
+            }
+
+            shoot(targetX, targetY) {
+                const bullet = document.createElement('div');
+                bullet.className = 'bullet';
+                bullet.style.left = (this.playerX + 25) + 'px';
+                bullet.style.top = (this.playerY + 25) + 'px';
+                this.gameContainer.appendChild(bullet);
+                
+                const dx = targetX - (this.playerX + 25);
+                const dy = targetY - (this.playerY + 25);
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const speed = 20;
+                
+                let bulletX = this.playerX + 25;
+                let bulletY = this.playerY + 25;
+                const vx = (dx / distance) * speed;
+                const vy = (dy / distance) * speed;
+                
+                const bulletInterval = setInterval(() => {
+                    bulletX += vx;
+                    bulletY += vy;
+                    bullet.style.left = bulletX + 'px';
+                    bullet.style.top = bulletY + 'px';
+                    
+                    if (bulletX < 0 || bulletX > 900 || bulletY < 0 || bulletY > 550) {
+                        bullet.remove();
+                        clearInterval(bulletInterval);
+                        return;
+                    }
+                    
+                    // 检查命中
+                    this.enemies.forEach((enemy, enemyIndex) => {
+                        const enemyRect = enemy.element.getBoundingClientRect();
+                        const containerRect = this.gameContainer.getBoundingClientRect();
+                        const enemyX = enemyRect.left - containerRect.left;
+                        const enemyY = enemyRect.top - containerRect.top;
+                        
+                        if (Math.abs(bulletX - enemyX - 25) < 30 &&
+                            Math.abs(bulletY - enemyY - 25) < 30) {
+                            
+                            enemy.health -= 35;
+                            
+                            // 命中标记
+                            this.showHitMarker(bulletX, bulletY);
+                            
+                            if (enemy.health <= 0) {
+                                enemy.element.remove();
+                                this.enemies.splice(enemyIndex, 1);
+                                this.addKill();
+                                this.chargeUltimate(20);
+                            }
+                            
+                            bullet.remove();
+                            clearInterval(bulletInterval);
+                        }
+                    });
+                }, 16);
+            }
+
+            useAbility(abilityType) {
+                const ability = this.abilities[abilityType];
+                if (ability.cooldown > 0) return;
+                
+                ability.cooldown = ability.maxCooldown;
+                
+                const abilityElement = document.createElement('div');
+                abilityElement.className = `ability ${abilityType}`;
+                abilityElement.style.left = (this.playerX + 25) + 'px';
+                abilityElement.style.top = (this.playerY + 25) + 'px';
+                this.gameContainer.appendChild(abilityElement);
+                
+                setTimeout(() => abilityElement.remove(), 3000);
+                
+                // 技能效果
+                if (abilityType === 'smoke') {
+                    // 烟雾弹 - 减速敌人
+                    this.enemies.forEach(enemy => {
+                        enemy.speed *= 0.5;
+                    });
+                } else if (abilityType === 'flash') {
+                    // 闪光弹 - 眩晕敌人
+                    this.enemies.forEach(enemy => {
+                        enemy.element.style.filter = 'brightness(2)';
+                        setTimeout(() => {
+                            enemy.element.style.filter = 'none';
+                        }, 1000);
+                    });
+                } else if (abilityType === 'molotov') {
+                    // 燃烧弹 - 伤害敌人
+                    this.enemies.forEach(enemy => {
+                        enemy.health -= 20;
+                        if (enemy.health <= 0) {
+                            enemy.element.remove();
+                            this.addKill();
+                        }
+                    });
+                } else if (abilityType === 'ultimate') {
+                    // 终极技能 - 全屏伤害
+                    this.enemies.forEach(enemy => {
+                        enemy.health = 0;
+                        enemy.element.remove();
+                        this.addKill();
+                    });
+                    this.ultimateCharge = 0;
+                    this.updateUltimateBar();
+                }
+                
+                // 更新技能冷却显示
+                this.updateAbilityCooldown(abilityType);
+            }
+
+            updateAbilityCooldown(abilityType) {
+                const slot = document.querySelector(`[data-ability="${abilityType}"]`);
+                slot.classList.remove('ready');
+                
+                const ability = this.abilities[abilityType];
+                const checkCooldown = setInterval(() => {
+                    ability.cooldown -= 100;
+                    if (ability.cooldown <= 0) {
+                        slot.classList.add('ready');
+                        clearInterval(checkCooldown);
+                    }
+                }, 100);
+            }
+
+            switchAgent(agent) {
+                this.currentAgent = agent;
+                document.querySelectorAll('.agent-card').forEach(card => {
+                    card.classList.remove('selected');
+                    if (card.dataset.agent === agent) {
+                        card.classList.add('selected');
+                    }
+                });
+                
+                // 不同特工有不同的属性
+                if (agent === 'jett') {
+                    this.playerSpeed = 7;
+                } else if (agent === 'phoenix') {
+                    this.playerSpeed = 6;
+                } else if (agent === 'sova') {
+                    this.playerSpeed = 5;
+                } else if (agent === 'viper') {
+                    this.playerSpeed = 5;
+                }
+            }
+
+            addKill() {
+                this.kills++;
+                this.score += 100;
+                document.getElementById('kills').textContent = this.kills;
+                document.getElementById('score').textContent = this.score;
+                
+                // 击杀提示
+                const killMessage = document.createElement('div');
+                killMessage.className = 'kill-message';
+                killMessage.textContent = `击杀 +100`;
+                document.getElementById('killFeed').appendChild(killMessage);
+                setTimeout(() => killMessage.remove(), 3000);
+            }
+
+            chargeUltimate(amount) {
+                this.ultimateCharge = Math.min(100, this.ultimateCharge + amount);
+                this.updateUltimateBar();
+            }
+
+            updateUltimateBar() {
+                const bar = document.getElementById('ultimateBar');
+                bar.style.width = this.ultimateCharge + '%';
+                
+                const ultimateSlot = document.querySelector('[data-ability="ultimate"]');
+                if (this.ultimateCharge >= 100) {
+                    ultimateSlot.classList.add('ready', 'ultimate-ready');
+                } else {
+                    ultimateSlot.classList.remove('ready', 'ultimate-ready');
+                }
+            }
+
+            showHitMarker(x, y) {
+                const hitMarker = document.createElement('div');
+                hitMarker.className = 'hit-marker';
+                hitMarker.style.left = (x - 15) + 'px';
+                hitMarker.style.top = (y - 15) + 'px';
+                this.gameContainer.appendChild(hitMarker);
+                setTimeout(() => hitMarker.remove(), 200);
+            }
+
+            spawnEnemy() {
+                const spawnY = Math.random() * 450 + 50;
+                const enemy = document.createElement('div');
+                enemy.className = 'enemy';
+                enemy.textContent = '👹';
+                enemy.style.left = '850px';
+                enemy.style.top = spawnY + 'px';
+                this.gameContainer.appendChild(enemy);
+                
+                this.enemies.push({
+                    element: enemy,
+                    x: 850,
+                    y: spawnY,
+                    health: 100,
+                    speed: 1 + Math.random() * 2
+                });
+            }
+
+            takeDamage(amount) {
+                // 简化版本，直接游戏结束
+                this.endGame();
+            }
+
+            endGame() {
+                this.gameOver = true;
+                clearInterval(this.gameLoop);
+                clearInterval(this.spawnInterval);
+                
+                document.getElementById('finalKills').textContent = this.kills;
+                document.getElementById('finalScore').textContent = this.score;
+                document.getElementById('gameOver').classList.add('active');
+            }
+
+            reset() {
+                this.kills = 0;
+                this.score = 0;
+                this.ultimateCharge = 0;
+                this.enemies.forEach(e => e.element.remove());
+                this.enemies = [];
+                this.gameOver = false;
+                
+                document.getElementById('kills').textContent = '0';
+                document.getElementById('score').textContent = '0';
+                document.getElementById('gameOver').classList.remove('active');
+                this.updateUltimateBar();
+                
+                this.init();
+            }
+        }
+
+        // 启动游戏
+        const game = new ValorantGame();
+    </script>
+</body>
+</html>
