@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCT_100 化工控制实训装置 - 产品说明书</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4ade80;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(74, 222, 128, 0.2);
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #1a1a2e;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 侧边栏布局 */
+        .container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-title {
+            color: #4ade80;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(74, 222, 128, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-menu a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 0.7rem 1rem;
+            border-radius: 8px;
+            display: block;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-menu a:hover {
+            background: rgba(74, 222, 128, 0.1);
+            color: #4ade80;
+        }
+
+        .sidebar-menu a.active {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #1a1a2e;
+        }
+
+        /* 内容区域 */
+        .content-area {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-title {
+            color: #4ade80;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            color: #e2e8f0;
+            line-height: 1.8;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .section-content ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+        }
+
+        /* 技术规格表 */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .specs-table th {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .specs-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+        }
+
+        .specs-table tr:hover {
+            background: rgba(74, 222, 128, 0.05);
+        }
+
+        /* 特性卡片 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-item {
+            background: rgba(74, 222, 128, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .feature-item h4 {
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .feature-item p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* 代码块 */
+        .code-block {
+            background: #0f172a;
+            padding: 1.5rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .code-title {
+            color: #4ade80;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 提示框 */
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 1rem 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1.5rem 0;
+        }
+
+        .info-box p {
+            color: #93c5fd;
+            margin: 0;
+        }
+
+        .warning-box {
+            background: rgba(234, 179, 8, 0.1);
+            border-left: 4px solid #eab308;
+            padding: 1rem 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box p {
+            color: #fde047;
+            margin: 0;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 响应式 */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">⚗️</div>
+            <span>PCT_100 化工实训</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">产品说明书</a></li>
+            <li><a href="second.html">技术架构</a></li>
+            <li><a href="download.html">下载中心</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <div class="container">
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <h3 class="sidebar-title">📖 目录导航</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#section-intro" class="active">1. 产品介绍</a></li>
+                    <li><a href="#section-overview">2. 产品概述</a></li>
+                    <li><a href="#section-features">3. 功能特性</a></li>
+                    <li><a href="#section-specs">4. 技术规格</a></li>
+                    <li><a href="#section-hardware">5. 硬件组成</a></li>
+                    <li><a href="#section-connection">6. 接线说明</a></li>
+                    <li><a href="#section-communication">7. 通信协议</a></li>
+                    <li><a href="#section-usage">8. 使用说明</a></li>
+                    <li><a href="#section-maintenance">9. 维护保养</a></li>
+                </ul>
+            </aside>
+
+            <!-- 内容区域 -->
+            <main class="content-area">
+                <!-- 产品介绍 -->
+                <section id="section-intro" class="section">
+                    <h2 class="section-title">产品介绍</h2>
+                    <div class="section-content">
+                        <p><strong>PCT_100 化工控制实训装置</strong> 是一款专为化工自动化教学设计的高性能智能控制系统。本装置采用先进的 ESP32 微控制器作为核心，集成了多种工业级传感器和通信模块，能够模拟真实的化工生产过程控制场景。</p>
+                        
+                        <div class="info-box">
+                            <p><strong>设备型号：</strong>PCT_100 | <strong>软件版本：</strong>V1.2 | <strong>设备 ID：</strong>PCT_100_043 | <strong>开发日期：</strong>2026-05-29</p>
+                        </div>
+
+                        <p><strong>主要应用场景：</strong></p>
+                        <ul>
+                            <li>化工自动化控制实训教学</li>
+                            <li>工业物联网（IIoT）技术演示</li>
+                            <li>传感器数据采集与监控</li>
+                            <li>智能家居/实验室环境监控</li>
+                            <li>MQTT 物联网通信学习</li>
+                        </ul>
+
+                        <p>本装置采用模块化设计理念，各功能模块独立工作又协同配合，支持 WiFi 无线连接和 MQTT 物联网协议，可轻松接入云平台实现远程监控和数据分析。配备 0.96 寸 OLED 显示屏实时显示传感器数据和系统状态，独立按键支持本地参数设置和手动控制，满足教学实训的多样化需求。</p>
+                    </div>
+                </section>
+
+                <!-- 产品概述 -->
+                <section id="section-overview" class="section">
+                    <h2 class="section-title">产品概述</h2>
+                    <div class="section-content">
+                        <p><strong>PCT_100 化工控制实训装置</strong> 是一款基于 ESP32 微控制器的智能工业控制系统，专为化工实训教学设计。系统集成温度监测、光照检测、无线通信、物联网接入等多种功能，为学员提供完整的工业自动化控制学习平台。</p>
+                        
+                        <div class="info-box">
+                            <p><strong>设备型号：</strong>PCT_100 | <strong>软件版本：</strong>V1.2 | <strong>设备 ID：</strong>PCT_100_043</p>
+                        </div>
+
+                        <p>本装置采用模块化设计，支持 WiFi 无线连接和 MQTT 物联网协议，可接入云平台实现远程监控。配备 OLED 显示屏实时显示传感器数据，独立按键支持本地参数设置和手动控制。</p>
+                    </div>
+                </section>
+
+                <!-- 功能特性 -->
+                <section id="section-features" class="section">
+                    <h2 class="section-title">功能特性</h2>
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <h4>🌡️ 温度监测</h4>
+                            <p>DS18B20 数字温度传感器，测量范围 -55°C ~ +125°C，精度±0.5°C，阈值可配置（默认 35°C）</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>💡 光照检测</h4>
+                            <p>高精度 ADC 光敏电阻检测，量程 0-1000 Lux，阈值可调（默认 200 Lux），自动联动控制</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>📶 WiFi 连接</h4>
+                            <p>ESP32 内置 WiFi 模块，支持 AP/STA 双模式，配置持久化存储，断线自动重连</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>🔗 MQTT 通信</h4>
+                            <p>支持 MQTT 协议接入云平台，发布/订阅模式，设备唯一 ID 标识，安全可靠</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>🖥️ OLED 显示</h4>
+                            <p>0.96 寸 I2C OLED 屏幕，128×64 分辨率，实时显示传感器数据、网络状态</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4> 按键控制</h4>
+                            <p>独立按键设计，支持参数设置、模式切换、手动控制，工业级耐用设计</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4> 声光报警</h4>
+                            <p>LED 指示灯和蜂鸣器双重报警，温度/光照超限自动触发，阈值可配置</p>
+                        </div>
+                        <div class="feature-item">
+                            <h4>⚡ 继电器输出</h4>
+                            <p>大功率继电器控制，支持外部设备联动，光照/温度超限自动开关</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 技术规格 -->
+                <section id="section-specs" class="section">
+                    <h2 class="section-title">技术规格</h2>
+                    <div class="section-content">
+                        <table class="specs-table">
+                            <tr>
+                                <th>项目</th>
+                                <th>规格参数</th>
+                            </tr>
+                            <tr>
+                                <td>微控制器</td>
+                                <td>ESP32-WROOM-32 双核 240MHz</td>
+                            </tr>
+                            <tr>
+                                <td>工作电压</td>
+                                <td>DC 5V / 12V（继电器供电）</td>
+                            </tr>
+                            <tr>
+                                <td>工作电流</td>
+                                <td>静态 80mA @5V，最大 350mA</td>
+                            </tr>
+                            <tr>
+                                <td>WiFi 标准</td>
+                                <td>802.11 b/g/n 2.4GHz</td>
+                            </tr>
+                            <tr>
+                                <td>温度传感器</td>
+                                <td>DS18B20 数字温度传感器</td>
+                            </tr>
+                            <tr>
+                                <td>温度范围</td>
+                                <td>-55°C ~ +125°C（精度±0.5°C）</td>
+                            </tr>
+                            <tr>
+                                <td>光照传感器</td>
+                                <td>光敏电阻 + ADC 检测</td>
+                            </tr>
+                            <tr>
+                                <td>光照范围</td>
+                                <td>0 ~ 1000 Lux</td>
+                            </tr>
+                            <tr>
+                                <td>显示屏</td>
+                                <td>0.96" OLED I2C 128×64</td>
+                            </tr>
+                            <tr>
+                                <td>继电器</td>
+                                <td>5V 继电器模块 10A/250VAC</td>
+                            </tr>
+                            <tr>
+                                <td>通信协议</td>
+                                <td>MQTT / HTTP / TCP</td>
+                            </tr>
+                            <tr>
+                                <td>外形尺寸</td>
+                                <td>180mm × 120mm × 40mm</td>
+                            </tr>
+                            <tr>
+                                <td>工作温度</td>
+                                <td>0°C ~ 50°C</td>
+                            </tr>
+                            <tr>
+                                <td>存储温度</td>
+                                <td>-20°C ~ 70°C</td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 硬件组成 -->
+                <section id="section-hardware" class="section">
+                    <h2 class="section-title">硬件组成</h2>
+                    <div class="section-content">
+                        <p>PCT_100 装置由以下核心模块组成：</p>
+                        <ul>
+                            <li><strong>ESP32 主控模块：</strong>系统核心，负责数据处理、网络通信、逻辑控制</li>
+                            <li><strong>DS18B20 温度传感器：</strong>单总线数字温度传感器，防水封装</li>
+                            <li><strong>光敏检测模块：</strong>光敏电阻 + 运放电路，输出模拟信号至 ADC</li>
+                            <li><strong>OLED 显示模块：</strong>0.96 寸 I2C 接口，显示系统状态和传感器数据</li>
+                            <li><strong>按键模块：</strong>独立按键，支持参数设置和手动控制</li>
+                            <li><strong>LED 指示模块：</strong>状态指示灯，温度/光照超限报警</li>
+                            <li><strong>继电器模块：</strong>5V 驱动，控制外部设备电源</li>
+                            <li><strong>WiFi 天线：</strong>板载 PCB 天线，WiFi 信号收发</li>
+                        </ul>
+
+                        <div class="warning-box">
+                            <p><strong>注意：</strong>继电器输出端可承受最大 10A/250VAC 负载，请勿超限使用。接线时请确保断电操作。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 接线说明 -->
+                <section id="section-connection" class="section">
+                    <h2 class="section-title">接线说明</h2>
+                    <div class="section-content">
+                        <p><strong>GPIO 引脚分配：</strong></p>
+                        <table class="specs-table">
+                            <tr>
+                                <th>模块</th>
+                                <th>GPIO 引脚</th>
+                                <th>说明</th>
+                            </tr>
+                            <tr>
+                                <td>DS18B20</td>
+                                <td>GPIO 4</td>
+                                <td>单总线数据引脚（需 4.7kΩ上拉电阻）</td>
+                            </tr>
+                            <tr>
+                                <td>光敏 ADC</td>
+                                <td>GPIO 34 (VP)</td>
+                                <td>ADC1_CH6 模拟输入</td>
+                            </tr>
+                            <tr>
+                                <td>OLED SCL</td>
+                                <td>GPIO 22</td>
+                                <td>I2C 时钟线（需上拉电阻）</td>
+                            </tr>
+                            <tr>
+                                <td>OLED SDA</td>
+                                <td>GPIO 21</td>
+                                <td>I2C 数据线（需上拉电阻）</td>
+                            </tr>
+                            <tr>
+                                <td>按键</td>
+                                <td>GPIO 15</td>
+                                <td>独立按键输入（内部下拉）</td>
+                            </tr>
+                            <tr>
+                                <td>LED 指示灯</td>
+                                <td>GPIO 2</td>
+                                <td>状态指示/报警输出</td>
+                            </tr>
+                            <tr>
+                                <td>继电器</td>
+                                <td>GPIO 5</td>
+                                <td>继电器控制信号</td>
+                            </tr>
+                        </table>
+
+                        <div class="info-box">
+                            <p><strong>电源接线：</strong>VCC 接 5V，GND 接公共地。继电器供电可独立使用 12V，需共地连接。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 通信协议 -->
+                <section id="section-communication" class="section">
+                    <h2 class="section-title">通信协议</h2>
+                    <div class="section-content">
+                        <p><strong>MQTT 主题定义：</strong></p>
+                        <ul>
+                            <li><strong>设备上报主题：</strong><code>pct100/{device_id}/upload</code></li>
+                            <li><strong>控制下发主题：</strong><code>pct100/{device_id}/control</code></li>
+                            <li><strong>状态响应主题：</strong><code>pct100/{device_id}/response</code></li>
+                        </ul>
+
+                        <div class="code-block">
+                            <div class="code-title">上报数据格式（JSON）：</div>
+                            <code>{
+  "device_id": "PCT_100_043",
+  "temperature": 28.5,
+  "light_lux": 350,
+  "relay_status": 0,
+  "led_status": 0,
+  "timestamp": 1717488000
+}</code>
+                        </div>
+
+                        <div class="code-block">
+                            <div class="code-title">控制指令格式（JSON）：</div>
+                            <code>{
+  "command": "set_relay",
+  "value": 1,
+  "device_id": "PCT_100_043"
+}</code>
+                        </div>
+
+                        <p><strong>默认 MQTT 服务器配置：</strong></p>
+                        <ul>
+                            <li>服务器地址：47.98.170.180</li>
+                            <li>端口：8081</li>
+                            <li>用户名：dzdx_emqx</li>
+                            <li>密码：Jp4!sQ7$</li>
+                        </ul>
+
+                        <div class="warning-box">
+                            <p><strong>注意：</strong>首次使用需修改 WiFi 账号密码（代码中 WIFI_SSID 和 WIFI_PASSWORD），MQTT 服务器信息可根据实际情况修改。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 使用说明 -->
+                <section id="section-usage" class="section">
+                    <h2 class="section-title">使用说明</h2>
+                    <div class="section-content">
+                        <p><strong>1. 上电启动：</strong></p>
+                        <ul>
+                            <li>连接 5V 电源，系统自动启动</li>
+                            <li>OLED 显示启动画面，WiFi 开始连接</li>
+                            <li>连接成功后显示实时传感器数据</li>
+                        </ul>
+
+                        <p><strong>2. 参数设置：</strong></p>
+                        <ul>
+                            <li>短按按键：切换显示页面</li>
+                            <li>长按按键（3 秒）：进入设置模式</li>
+                            <li>设置模式下短按切换参数，长按确认</li>
+                            <li>可设置温度阈值、光照阈值、MQTT 参数等</li>
+                        </ul>
+
+                        <p><strong>3. 自动控制模式：</strong></p>
+                        <ul>
+                            <li>温度超过阈值（默认 35°C）→ LED 报警 + 继电器闭合</li>
+                            <li>光照低于阈值（默认 200 Lux）→ 继电器闭合（开灯）</li>
+                            <li>数据自动上报 MQTT 服务器（间隔 5 秒）</li>
+                        </ul>
+
+                        <p><strong>4. 手动控制模式：</strong></p>
+                        <ul>
+                            <li>通过 MQTT 控制指令远程开关继电器和 LED</li>
+                            <li>本地按键可手动切换继电器状态</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 维护保养 -->
+                <section id="section-maintenance" class="section">
+                    <h2 class="section-title">维护保养</h2>
+                    <div class="section-content">
+                        <p><strong>日常维护：</strong></p>
+                        <ul>
+                            <li>定期清洁设备表面，避免灰尘堆积影响散热</li>
+                            <li>检查接线端子是否松动，确保连接可靠</li>
+                            <li>避免在潮湿、高温、强磁场环境中使用</li>
+                            <li>长期不用请断开电源，存放在干燥环境</li>
+                        </ul>
+
+                        <p><strong>故障排查：</strong></p>
+                        <ul>
+                            <li><strong>无法连接 WiFi：</strong>检查账号密码是否正确，确认路由器正常工作</li>
+                            <li><strong>温度显示异常：</strong>检查 DS18B20 接线，确认 4.7kΩ上拉电阻已连接</li>
+                            <li><strong>OLED 不显示：</strong>检查 I2C 接线（SDA/SCL），确认供电正常</li>
+                            <li><strong>继电器不动作：</strong>检查 GPIO5 输出和继电器模块供电</li>
+                        </ul>
+
+                        <div class="info-box">
+                            <p><strong>技术支持：</strong>如遇无法解决的故障，请联系设备供应商或查看项目源码获取帮助。</p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>PCT_100 化工控制实训装置 V1.2 | 设备 ID: PCT_100_043</p>
+        <p>© 2026 化工实训系统 | 基于 ESP32 平台开发</p>
+    </footer>
+
+    <script>
+        // 侧边栏滚动高亮
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.sidebar-menu a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

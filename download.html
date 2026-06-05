@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCT_100 化工控制实训装置 - 下载中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4ade80;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(74, 222, 128, 0.2);
+        }
+
+        .nav-links a.active {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #1a1a2e;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Hero 区域 */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        /* 下载分类 */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(74, 222, 128, 0.2);
+            border-color: rgba(74, 222, 128, 0.4);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .category-title {
+            color: #4ade80;
+            font-size: 1.3rem;
+        }
+
+        .download-list {
+            list-style: none;
+        }
+
+        .download-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .download-item:hover {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .download-info {
+            flex: 1;
+        }
+
+        .download-name {
+            color: #e2e8f0;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .download-desc {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .download-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .download-size {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: #1a1a2e;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(74, 222, 128, 0.4);
+        }
+
+        /* 快速下载 */
+        .quick-download {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 197, 94, 0.1));
+            border: 2px solid rgba(74, 222, 128, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .quick-download h2 {
+            color: #4ade80;
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .quick-link {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover {
+            background: rgba(74, 222, 128, 0.15);
+            border-color: #4ade80;
+            transform: translateY(-3px);
+        }
+
+        .quick-link .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .quick-link h3 {
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-link p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* 开发工具 */
+        .tools-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tools-section h2 {
+            color: #4ade80;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(74, 222, 128, 0.15);
+        }
+
+        .tool-card h4 {
+            color: #4ade80;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .tool-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .tool-link {
+            color: #4ade80;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .tool-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 文档说明 */
+        .docs-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .docs-section h2 {
+            color: #4ade80;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .doc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .doc-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.2rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .doc-item:hover {
+            background: rgba(74, 222, 128, 0.1);
+            transform: translateX(5px);
+        }
+
+        .doc-icon {
+            font-size: 2rem;
+        }
+
+        .doc-info h4 {
+            color: #e2e8f0;
+            margin-bottom: 0.3rem;
+        }
+
+        .doc-info p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* 提示信息 */
+        .info-box {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            border-radius: 0 10px 10px 0;
+            margin: 2rem 0;
+        }
+
+        .info-box h3 {
+            color: #60a5fa;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box p {
+            color: #93c5fd;
+            line-height: 1.6;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            .nav-links {
+                gap: 0.5rem;
+            }
+            .nav-links a {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">
+            <div class="logo-icon">⚗️</div>
+            <span>PCT_100 化工实训</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">产品说明书</a></li>
+            <li><a href="second.html">技术架构</a></li>
+            <li><a href="download.html" class="active">下载中心</a></li>
+        </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <!-- Hero 区域 -->
+        <section class="hero">
+            <span class="version-badge">版本 V1.2 | 设备 ID: PCT_100_043</span>
+            <h1>下载中心</h1>
+            <p>获取 PCT_100 化工控制实训装置的全部开发资料、文档和工具</p>
+        </section>
+
+        <!-- 快速下载 -->
+        <section class="quick-download">
+            <h2> 快速下载</h2>
+            <div class="quick-links">
+                <a href="#" class="quick-link">
+                    <div class="icon">📦</div>
+                    <h3>完整项目源码</h3>
+                    <p>包含所有源代码和配置文件</p>
+                </a>
+                <a href="#" class="quick-link">
+                    <div class="icon"></div>
+                    <h3>固件烧录包</h3>
+                    <p>编译好的固件直接烧录</p>
+                </a>
+                <a href="#" class="quick-link">
+                    <div class="icon">📐</div>
+                    <h3>硬件原理图</h3>
+                    <p>PDF 格式电路原理图</p>
+                </a>
+                <a href="#" class="quick-link">
+                    <div class="icon"></div>
+                    <h3>用户手册</h3>
+                    <p>详细的使用说明文档</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- 下载分类 -->
+        <section class="categories">
+            <!-- 源码文件 -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">📝</div>
+                    <h3 class="category-title">源码文件</h3>
+                </div>
+                <ul class="download-list">
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">PCT_100.ino</div>
+                            <div class="download-desc">主程序入口文件</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">5KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">ds18b20.cpp/h</div>
+                            <div class="download-desc">温度传感器驱动</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">2KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">adc.cpp/h</div>
+                            <div class="download-desc">光照 ADC 采集模块</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">2KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">oled.cpp/h</div>
+                            <div class="download-desc">OLED 显示驱动</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">3KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">完整源码.zip</div>
+                            <div class="download-desc">所有源代码文件打包</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">50KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 文档资料 -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon"></div>
+                    <h3 class="category-title">文档资料</h3>
+                </div>
+                <ul class="download-list">
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">产品说明书</div>
+                            <div class="download-desc">完整技术规格和使用指南</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">2MB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">硬件原理图.pdf</div>
+                            <div class="download-desc">电路原理图和接线图</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">1.5MB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">快速入门指南</div>
+                            <div class="download-desc">5 分钟快速上手教程</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">500KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">MQTT 协议文档</div>
+                            <div class="download-desc">通信协议详细说明</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">800KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">常见问题 FAQ</div>
+                            <div class="download-desc">常见问题解答汇总</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">300KB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 工具软件 -->
+            <div class="category-card">
+                <div class="category-header">
+                    <div class="category-icon">🔨</div>
+                    <h3 class="category-title">工具软件</h3>
+                </div>
+                <ul class="download-list">
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">Arduino IDE</div>
+                            <div class="download-desc">集成开发环境</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">200MB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">ESP32 开发板支持包</div>
+                            <div class="download-desc">Arduino 板级支持包</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">50MB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">MQTTX</div>
+                            <div class="download-desc">MQTT 客户端工具</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">80MB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">USB 转串口驱动</div>
+                            <div class="download-desc">CH340/CP2102 驱动</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">10MB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                    <li class="download-item">
+                        <div class="download-info">
+                            <div class="download-name">固件烧录工具</div>
+                            <div class="download-desc">ESP32 Download Tool</div>
+                        </div>
+                        <div class="download-meta">
+                            <span class="download-size">15MB</span>
+                            <a href="#" class="download-btn">下载</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 开发工具 -->
+        <section class="tools-section">
+            <h2>🛠️ 推荐开发工具</h2>
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <h4>Arduino IDE</h4>
+                    <p>官方推荐的集成开发环境，支持代码编辑、编译、烧录和串口调试。</p>
+                    <a href="https://www.arduino.cc/en/software" target="_blank" class="tool-link">访问官网 →</a>
+                </div>
+
+                <div class="tool-card">
+                    <h4>VS Code + PlatformIO</h4>
+                    <p>现代化的代码编辑器，配合 PlatformIO 插件提供强大的 ESP32 开发支持。</p>
+                    <a href="https://platformio.org/" target="_blank" class="tool-link">访问官网 →</a>
+                </div>
+
+                <div class="tool-card">
+                    <h4>MQTTX</h4>
+                    <p>跨平台 MQTT 客户端工具，用于测试和调试 MQTT 通信，支持订阅/发布消息。</p>
+                    <a href="https://mqttx.app/" target="_blank" class="tool-link">访问官网 →</a>
+                </div>
+
+                <div class="tool-card">
+                    <h4>串口调试助手</h4>
+                    <p>用于查看设备串口输出信息，调试程序和分析数据。</p>
+                    <a href="#" class="tool-link">下载工具 →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 文档资料 -->
+        <section class="docs-section">
+            <h2>📖 技术文档</h2>
+            <div class="doc-list">
+                <div class="doc-item">
+                    <div class="doc-icon">📄</div>
+                    <div class="doc-info">
+                        <h4>ESP32 技术参考手册</h4>
+                        <p>ESP32 芯片完整技术规格和寄存器说明</p>
+                    </div>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon">📄</div>
+                    <div class="doc-info">
+                        <h4>DS18B20 数据手册</h4>
+                        <p>温度传感器 datasheet 和通信协议</p>
+                    </div>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon">📄</div>
+                    <div class="doc-info">
+                        <h4>MQTT 协议规范</h4>
+                        <p>MQTT 3.1.1 协议标准文档</p>
+                    </div>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon"></div>
+                    <div class="doc-info">
+                        <h4>OLED 显示模块手册</h4>
+                        <p>SSD1306 驱动芯片和 I2C 通信协议</p>
+                    </div>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon">📄</div>
+                    <div class="doc-info">
+                        <h4>Arduino 编程指南</h4>
+                        <p>Arduino 框架编程基础和最佳实践</p>
+                    </div>
+                </div>
+
+                <div class="doc-item">
+                    <div class="doc-icon">📄</div>
+                    <div class="doc-info">
+                        <h4>WiFi 连接调试指南</h4>
+                        <p>ESP32 WiFi 连接问题排查方法</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 提示信息 -->
+        <div class="info-box">
+            <h3>💡 下载提示</h3>
+            <p>
+                1. 完整项目源码包含所有模块的源代码和库文件，推荐使用 Arduino IDE 或 VS Code 打开编辑。<br>
+                2. 固件烧录包是已经编译好的二进制文件，可直接使用 ESP32 Download Tool 烧录到设备。<br>
+                3. 首次使用请确保安装 USB 转串口驱动，否则可能无法识别设备。<br>
+                4. 如需修改 WiFi 配置，请在源码中修改 WIFI_SSID 和 WIFI_PASSWORD 宏定义。<br>
+                5. MQTT 服务器地址和凭证可在代码中修改，或烧录后通过串口命令配置。
+            </p>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>PCT_100 化工控制实训装置 V1.2 | 设备 ID: PCT_100_043</p>
+        <p>© 2026 化工实训系统 | 基于 ESP32 平台开发</p>
+    </footer>
+</body>
+</html>
