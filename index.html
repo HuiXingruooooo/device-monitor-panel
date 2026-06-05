@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<<<<<<< HEAD
     <title>PCT_100 化工控制实训装置 - 产品说明书</title>
+=======
+    <title>快速点击小球</title>
+>>>>>>> bcc54c724e20390380496a2bf41de9b208b76268
     <style>
         * {
             margin: 0;
@@ -12,6 +16,7 @@
         }
 
         body {
+<<<<<<< HEAD
             font-family: 'Microsoft YaHei', Arial, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #fff;
@@ -312,10 +317,304 @@
             .sidebar {
                 position: static;
             }
+=======
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .sensitivity-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sensitivity-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .sensitivity-slider {
+            width: 120px;
+            accent-color: #667eea;
+        }
+
+        .sensitivity-value {
+            font-size: 0.9em;
+            color: #667eea;
+            font-weight: bold;
+            min-width: 40px;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .crosshair {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            pointer-events: none;
+            z-index: 1000;
+            mix-blend-mode: difference;
+        }
+
+        .crosshair::before, .crosshair::after {
+            content: '';
+            position: absolute;
+            background: white;
+        }
+
+        .crosshair::before {
+            width: 2px;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .crosshair::after {
+            width: 100%;
+            height: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .timer-value {
+            color: #667eea;
+        }
+
+        .score-value {
+            color: #764ba2;
+        }
+
+        .game-container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .ball {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            transition: transform 0.1s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            user-select: none;
+        }
+
+        .ball:hover {
+            transform: scale(1.1);
+        }
+
+        .ball:active {
+            transform: scale(0.9);
+        }
+
+        .ball.red {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+        }
+
+        .ball.blue {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .ball.green {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+        }
+
+        .ball.yellow {
+            background: linear-gradient(135deg, #f6d365, #fda085);
+        }
+
+        .ball.purple {
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+        }
+
+        .ball.orange {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+        }
+
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .game-over.active {
+            display: flex;
+        }
+
+        .game-over h2 {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .final-score {
+            font-size: 4em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .final-text {
+            font-size: 1.5em;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.3em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .click-effect {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent);
+            pointer-events: none;
+            animation: clickPop 0.3s ease-out forwards;
+            z-index: 100;
+        }
+
+        @keyframes clickPop {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .score-popup {
+            position: absolute;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            pointer-events: none;
+            animation: scoreFloat 0.8s ease-out forwards;
+            z-index: 100;
+        }
+
+        @keyframes scoreFloat {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50px) scale(1.5); opacity: 0; }
+        }
+
+        .instructions {
+            margin-top: 15px;
+            color: white;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .start-screen h1 {
+            font-size: 3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .start-screen p {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 1.5em;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: all 0.2s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+>>>>>>> bcc54c724e20390380496a2bf41de9b208b76268
         }
     </style>
 </head>
 <body>
+<<<<<<< HEAD
     <!-- 导航栏 -->
     <nav class="navbar">
         <div class="logo">
@@ -722,6 +1021,214 @@
                 }
             });
         });
+=======
+    <div class="game-header">
+        <div class="stat-box">
+            <div class="stat-label">剩余时间</div>
+            <div class="stat-value timer-value" id="timer">60</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">点击得分</div>
+            <div class="stat-value score-value" id="score">0</div>
+        </div>
+        <div class="sensitivity-box">
+            <span class="sensitivity-label">灵敏度:</span>
+            <input type="range" class="sensitivity-slider" id="sensitivitySlider" min="0.1" max="2" step="0.1" value="1">
+            <span class="sensitivity-value" id="sensitivityValue">1.0</span>
+        </div>
+    </div>
+
+    <div class="game-container" id="gameContainer">
+        <div class="crosshair" id="crosshair"></div>
+        <div class="start-screen" id="startScreen">
+            <h1>🎯 快速点击</h1>
+            <p>在1分钟内尽可能多地点击小球！</p>
+            <button class="start-btn" id="startBtn">开始游戏</button>
+        </div>
+
+        <div class="game-over" id="gameOver">
+            <h2>游戏结束!</h2>
+            <div class="final-score" id="finalScore">0</div>
+            <div class="final-text">分</div>
+            <button id="restartBtn">再来一次</button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        点击小球即可得分 | 调整灵敏度控制准星速度
+    </div>
+
+    <script>
+        class BallClickGame {
+            constructor() {
+                this.gameContainer = document.getElementById('gameContainer');
+                this.crosshair = document.getElementById('crosshair');
+                this.score = 0;
+                this.timeLeft = 60;
+                this.balls = [];
+                this.gameRunning = false;
+                this.ballCount = 3;
+                this.ballColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
+                this.ballEmojis = ['🔴', '🔵', '🟢', '🟡', '🟣', '🟠'];
+                this.sensitivity = 1.0;
+                this.crosshairX = 400;
+                this.crosshairY = 250;
+                
+                this.init();
+            }
+
+            init() {
+                // 灵敏度控制
+                const sensitivitySlider = document.getElementById('sensitivitySlider');
+                const sensitivityValue = document.getElementById('sensitivityValue');
+                
+                sensitivitySlider.addEventListener('input', (e) => {
+                    this.sensitivity = parseFloat(e.target.value);
+                    sensitivityValue.textContent = this.sensitivity.toFixed(1);
+                });
+                
+                // 准星跟随鼠标
+                this.gameContainer.addEventListener('mousemove', (e) => {
+                    const rect = this.gameContainer.getBoundingClientRect();
+                    const mouseX = e.clientX - rect.left;
+                    const mouseY = e.clientY - rect.top;
+                    
+                    // 使用灵敏度控制准星移动
+                    this.crosshairX += (mouseX - this.crosshairX - 15) * this.sensitivity;
+                    this.crosshairY += (mouseY - this.crosshairY - 15) * this.sensitivity;
+                    
+                    // 限制准星在游戏区域内
+                    this.crosshairX = Math.max(0, Math.min(this.gameContainer.offsetWidth - 30, this.crosshairX));
+                    this.crosshairY = Math.max(0, Math.min(this.gameContainer.offsetHeight - 30, this.crosshairY));
+                    
+                    this.crosshair.style.left = this.crosshairX + 'px';
+                    this.crosshair.style.top = this.crosshairY + 'px';
+                });
+                
+                document.getElementById('startBtn').addEventListener('click', () => this.startGame());
+                document.getElementById('restartBtn').addEventListener('click', () => this.startGame());
+            }
+
+            startGame() {
+                this.score = 0;
+                this.timeLeft = 60;
+                this.gameRunning = true;
+                
+                document.getElementById('score').textContent = '0';
+                document.getElementById('timer').textContent = '60';
+                document.getElementById('startScreen').style.display = 'none';
+                document.getElementById('gameOver').classList.remove('active');
+                
+                // 清除所有小球
+                this.balls.forEach(ball => ball.element.remove());
+                this.balls = [];
+                
+                // 生成初始小球
+                for (let i = 0; i < this.ballCount; i++) {
+                    this.createBall();
+                }
+                
+                // 开始计时
+                this.timerInterval = setInterval(() => {
+                    this.timeLeft--;
+                    document.getElementById('timer').textContent = this.timeLeft;
+                    
+                    if (this.timeLeft <= 0) {
+                        this.endGame();
+                    }
+                }, 1000);
+            }
+
+            createBall() {
+                const ball = document.createElement('div');
+                const colorIndex = Math.floor(Math.random() * this.ballColors.length);
+                const emojiIndex = Math.floor(Math.random() * this.ballEmojis.length);
+                
+                ball.className = `ball ${this.ballColors[colorIndex]}`;
+                ball.textContent = this.ballEmojis[emojiIndex];
+                
+                // 随机位置，确保不超出边界
+                const maxX = this.gameContainer.offsetWidth - 60;
+                const maxY = this.gameContainer.offsetHeight - 60;
+                const x = Math.random() * maxX;
+                const y = Math.random() * maxY;
+                
+                ball.style.left = x + 'px';
+                ball.style.top = y + 'px';
+                
+                // 点击事件
+                ball.addEventListener('click', (e) => this.clickBall(ball, x, y));
+                
+                this.gameContainer.appendChild(ball);
+                
+                this.balls.push({
+                    element: ball,
+                    x: x,
+                    y: y
+                });
+            }
+
+            clickBall(ball, x, y) {
+                if (!this.gameRunning) return;
+                
+                // 立即加分
+                this.score++;
+                document.getElementById('score').textContent = this.score;
+                
+                // 创建点击效果
+                this.createClickEffect(x + 30, y + 30);
+                
+                // 创建得分弹出
+                this.createScorePopup(x + 30, y + 30);
+                
+                // 立即移除旧球
+                const ballIndex = this.balls.findIndex(b => b.element === ball);
+                if (ballIndex > -1) {
+                    this.balls.splice(ballIndex, 1);
+                }
+                ball.remove();
+                
+                // 立即生成新球
+                this.createBall();
+            }
+
+            createClickEffect(x, y) {
+                const effect = document.createElement('div');
+                effect.className = 'click-effect';
+                effect.style.left = (x - 40) + 'px';
+                effect.style.top = (y - 40) + 'px';
+                this.gameContainer.appendChild(effect);
+                
+                setTimeout(() => effect.remove(), 300);
+            }
+
+            createScorePopup(x, y) {
+                const popup = document.createElement('div');
+                popup.className = 'score-popup';
+                popup.textContent = '+1';
+                popup.style.left = x + 'px';
+                popup.style.top = y + 'px';
+                this.gameContainer.appendChild(popup);
+                
+                setTimeout(() => popup.remove(), 800);
+            }
+
+            endGame() {
+                this.gameRunning = false;
+                clearInterval(this.timerInterval);
+                
+                // 清除所有小球
+                this.balls.forEach(ball => ball.element.remove());
+                this.balls = [];
+                
+                document.getElementById('finalScore').textContent = this.score;
+                document.getElementById('gameOver').classList.add('active');
+            }
+        }
+
+        // 启动游戏
+        const game = new BallClickGame();
+>>>>>>> bcc54c724e20390380496a2bf41de9b208b76268
     </script>
 </body>
 </html>
